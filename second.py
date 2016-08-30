@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*
+import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
@@ -23,29 +23,18 @@ archiveUrls = [ '/Archive?stageId=12496',
                 '/Archive?stageId=4345',
                 '/Archive?stageId=3115']
 
-
 # Each team
 for team in eplTeams:
     # Each season
     for archive in archiveUrls:
 
-        # Connect webdriver
+    	# Retrieve URLs
         finalURL = baseURL + team + archive
-        browser =  webdriver.PhantomJS()
-        browser.get(finalURL)
+       	r = requests.get(finalURL)
 
-        print (finalURL)
+       	#extract game ids if response is correct
+       	if (r.status_code == 200 and r.content is not None):
+			content = r.content.decode("utf-8")
+			soup = BeautifulSoup(''.join(content), 'lxml')
 
-        # Load content
-        content = browser.page_source
-        soup = BeautifulSoup(''.join(content), 'lxml')
-
-        # Get table
-        table = soup.find("tbody", {"id": "player-table-statistics-body"})
-
-        print (table)
-
-        # Get players
-        players = table[0].findAll("tr")
-
-        print (players)
+			print soup
