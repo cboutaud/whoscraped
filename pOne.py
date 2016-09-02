@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*
+﻿# -*- coding: utf-8 -*-
 from selenium import webdriver
 from bs4 import BeautifulSoup
+import time
 
 #----------------------------------------------------------------------
 
@@ -33,8 +34,7 @@ for team in eplTeams:
         finalURL = baseURL + team + archive
         browser =  webdriver.PhantomJS()
         browser.get(finalURL)
-
-        print (finalURL)
+        time.sleep(20)
 
         # Load content
         content = browser.page_source
@@ -46,6 +46,37 @@ for team in eplTeams:
         print (table)
 
         # Get players
-        players = table[0].findAll("tr")
+        players = table.findAll("tr")
 
-        print (players)
+        #Get stats
+        i = 0
+
+        while i < len(players):
+            stats = players[i].findAll("td")
+
+            index = stats[0].get_text()
+            nation = stats[1].find("span").get("class")[2].rsplit('-', 1)[1]
+            name = stats[2].findChildren()[0].get_text().encode('utf-8')
+            team = stats[2].findChildren()[2].get_text().rsplit(',', 1)[0]
+            age = stats[2].findChildren()[3].get_text()
+            position = stats[2].findChildren()[4].get_text().split(',', 1)[1].strip()
+            height = stats[3].get_text()
+            weight = stats[4].get_text()
+            apps = stats[5].get_text()
+            mins = stats[6].get_text()
+            goals = stats[7].get_text()
+            assists = stats[8].get_text()
+            yellow = stats[9].get_text()
+            red = stats[10].get_text()
+            SpG = stats[11].get_text()
+            PassPer = stats[12].get_text()
+            AerialsWon = stats[13].get_text()
+            MotM = stats[14].get_text()
+
+            print (name)
+
+            i += 1
+
+            break
+        break
+    break
