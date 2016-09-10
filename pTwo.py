@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from random import randint
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
 
@@ -34,33 +36,38 @@ for team in eplTeams:
     for archive in archiveUrls:
         print ("HOLDTHEDOOR")
 
-        # Connect webdriver
+        # Make URL
         finalURL = baseURL + team + archive
+
+        # Connect webdriver
         browser =  webdriver.PhantomJS()
+        browser.set_window_size(1920, 1080) # PhantomJS default to 400X300 is executable element outside might cause problem
         browser.get(finalURL)
         time.sleep(10)
 
+
         # The different tables
         tables = ['summary', 'defensive', 'offensive', 'passing']
-
-        # waiting time
-        wtime = [3, 4]
 
         # Load all tables in list
         data = []
 
         # Get all tables
         while len(data) != 4:
-            print ("HOLDDOOR")
             for table in tables:
                 try:
-                    # browser.switch_to.frame(browser.find_element_by_css_selector("a[href*='#team-squad-archive-stats-" + table + "']"))
+                    print ("HOLDDOOR")
+                    print(browser.find_element_by_css_selector("a[href*='#team-squad-archive-stats-" + table + "']"))
                     # print(browser.find_element_by_css_selector("a[href*='#team-squad-archive-stats-" + table + "']").click())
-                    element = browser.find_elements_by_css_selector("a[href*='#team-squad-archive-stats-" + table + "']")
-                    element.send_keys("keysToSend")
-                    element.submit()
-                    element.click()
-                    ttime.sleep(randint(wtime[0], wtime[1]))
+                    element = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='#team-squad-archive-stats-" + table + "']")))
+                    # element = browser.find_elements_by_css_selector("a[href*='#team-squad-archive-stats-" + table + "']")
+                    time.sleep(10)
+                    print("YO REACH")
+                    print(browser.execute_script("arguments.click();", element))
+                    # element.click()
+                    browser.execute_script("arguments.click();", element)
+                    print("YO PREACH")
+                    time.sleep(10)
                 except:
                     print "Problems with loading webpage in browser."
                     time.sleep(60)
@@ -77,10 +84,19 @@ for team in eplTeams:
 
                 print 'Data has length ' + str(len(data)) + " at the moment."
 
+        
+        browser.quit()
+
+        print ('')
+        print ("-----------THE DATA-----------")
+        print ('')
         print (data)
+        print ('')
+        print ("------------------------------")
+        print ('')
 
         # Get players
-        players = thetable.findAll("tr")
+        players = table.findAll("tr")
 
         #Get stats
         i = 0
