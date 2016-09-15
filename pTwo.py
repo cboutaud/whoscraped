@@ -10,7 +10,7 @@ import csv
 #----------------------------------------------------------------------
 
 # Output file
-outputfile = open('players.csv', 'wb')
+outputfile = open('players2.csv', 'wb')
 csv_writer = csv.writer(outputfile)
 csv_writer.writerow(["name","nat","tm","age","pos","cm","kg","app","min","G","A","yel","red","spG","pa%","aerWon","moM","tac","int","fouls","offW","clear","drbP","blcks","ownG","KP","drb","fouled","cOff","disp","unsT","avgP","crosses","longB","thrB"])
 
@@ -20,9 +20,9 @@ csv_writer.writerow(["name","nat","tm","age","pos","cm","kg","app","min","G","A"
 baseURL = 'https://www.whoscored.com/Teams/'
 
 # Teams
-eplTeams =  ['13', '92', '15', '16', '158', '23',  '24',    # Arsenal, Bolton, Chelsea, Sunderland, Blackburn, Newcastle, Aston Villa,
+eplTeams =  ['13', '92', '15', '16', '158', '169',  '24',    # Arsenal, Bolton, Chelsea, Sunderland, Blackburn, Portsmouth, Aston Villa,
              '26', '170', '161', '30', '31', '32', '96',    # Liverpool, Fulham, Wolves, Tottenham, Everton, Manchester United, Stoke,
-             '171', '167', '168', '175', '194', '259']     # QPR, Manchester City, Norwich, West Brom, Wigan, Swansea
+             '29', '167', '184', '214', '194', '157']        # West Ham, Manchester City, Blackpool, Hull, Wigan, Birmingham
             # Bournemouth 183
             # Norwich 168
             # Watford 27
@@ -35,9 +35,13 @@ eplTeams =  ['13', '92', '15', '16', '158', '23',  '24',    # Arsenal, Bolton, C
             # West Ham 29
             # Reading 94
             # Southampton 18
+            # Swansea 259
+            # Newcastle 23
+            # West Brom 175
+            # Blackpool 93
 
 # Seasons 2009/2010 to 2015/2016
-archiveUrls = ['/Archive?stageId=5476']
+archiveUrls = ['/Archive?stageId=3115']
                 # [ '/Archive?stageId=12496'], 
                 # '/Archive?stageId=9155',
                 # '/Archive?stageId=7794',
